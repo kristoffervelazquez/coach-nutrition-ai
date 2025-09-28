@@ -1,45 +1,56 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { redirect } from 'next/navigation'
+import { GetAuthCurrentUserServer, runWithAmplifyServerContext } from '@/utils/utils'
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
+import { cookies } from 'next/headers'
+import Header from './components/Header'
 import "./../app/app.css";
-import { Amplify } from "aws-amplify";
-import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 
-Amplify.configure(outputs);
+
 
 const client = generateClient<Schema>();
 
-export default function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+async function getTodos() {
+  try {
+    const todos = await runWithAmplifyServerContext({
+      nextServerContext: { cookies },
+      operation: async (context: any) => {
+        const { data } = await client.models.Todo.list()
+        console.log(data)
+        return data
+      }
+    })
+    return todos 
+  } catch (error) {
+    console.error('Error fetching todos:', error)
+    return []
+  }
+}
 
-  function listTodos() {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
+export default async function App() {
+  // Verificar autenticación en el servidor
+  const user = await GetAuthCurrentUserServer()
+  const todos = await getTodos()
+
+
+
+  // Si no está autenticado, redirigir al signup
+  if (!user) {
+    redirect('/signup')
   }
 
-  useEffect(() => {
-    listTodos();
-  }, []);
-
-  function createTodo() {
-    client.models.Todo.create({
-      content: window.prompt("Todo content"),
-    });
-  }
-
+  // Obtener todos del servidor
   return (
     <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
+      <Header username={user.signInDetails?.loginId || 'User'} />
+
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>{todo.content}</li>
         ))}
       </ul>
+
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
