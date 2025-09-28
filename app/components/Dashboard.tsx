@@ -21,11 +21,13 @@ import {
   Person,
   TrendingUp,
   CalendarToday,
-  AccessTime
+  AccessTime,
+  Logout
 } from '@mui/icons-material'
-import { AuthUser } from 'aws-amplify/auth'
+import { AuthUser, signOut } from 'aws-amplify/auth'
 import { UserProfile, LogEntry } from '@/amplify/data/resource'
 import { useRouter } from 'next/navigation'
+
 
 interface DashboardProps {
   user: AuthUser
@@ -37,8 +39,12 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
   const router = useRouter()
 
   const handleSignOut = async () => {
-    // Esta función será implementada en el Header
-    console.log('Sign out')
+    try {
+      await signOut()
+      router.push('/signup')
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
   }
 
   const formatDate = (timestamp?: string) => {
@@ -89,13 +95,25 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
               </Typography>
             </Box>
           </Box>
-          <Button
-            variant="outlined"
-            onClick={() => router.push('/profile')}
-            startIcon={<Person />}
-          >
-            Mi Perfil
-          </Button>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Button
+              variant="outlined"
+              onClick={() => router.push('/profile')}
+              startIcon={<Person />}
+              sx={{ mr: 1 }}
+            >
+              Mi Perfil
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleSignOut}
+              startIcon={<Logout />}
+              size="small"
+            >
+              Salir
+            </Button>
+          </Box>
         </Box>
 
         {/* Stats Overview */}
