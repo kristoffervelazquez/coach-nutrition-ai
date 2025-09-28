@@ -2,6 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ConfigureAmplify from "@/utils/configureAmplify";
+import MuiProvider from './components/MuiProvider';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,8 +20,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ConfigureAmplify />
         <AppRouterCacheProvider>
-
-          {children}
+          <MuiProvider>
+            {children}
+          </MuiProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
