@@ -15,7 +15,7 @@ async function getTodos() {
     const todos = await runWithAmplifyServerContext({
       nextServerContext: { cookies },
       operation: async (context: any) => {
-        const { data } = await client.models.Todo.list()
+        const { data } = await client.models.Item.list()
         console.log(data)
         return data
       }
@@ -46,7 +46,7 @@ export default async function App() {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+          <li key={todo.userId}>{todo.type}</li>
         ))}
       </ul>
 
