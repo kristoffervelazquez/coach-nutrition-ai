@@ -4,7 +4,6 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 import { cookies } from 'next/headers'
 import Header from './components/Header'
-import "./../app/app.css";
 import "@aws-amplify/ui-react/styles.css";
 
 
