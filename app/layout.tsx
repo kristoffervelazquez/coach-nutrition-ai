@@ -1,3 +1,4 @@
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ConfigureAmplify from "@/utils/configureAmplify";
@@ -16,8 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <ConfigureAmplify />
-      {children}
+        <ConfigureAmplify />
+        <AppRouterCacheProvider>
+
+          {children}
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 "use client"
+import { Container } from '@mui/material'
 import { signOut } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
 
@@ -19,22 +20,17 @@ export default function Header({ username }: HeaderProps) {
   }
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'space-between', 
-      alignItems: 'center',
-      marginBottom: '20px'
-    }}>
+    <Container>
       <h1>My todos</h1>
       <div>
         <span>Welcome, {username}!</span>
-        <button 
+        <button
           style={{ marginLeft: '10px' }}
           onClick={handleSignOut}
         >
           Sign Out
         </button>
       </div>
-    </div>
+    </Container>
   )
 }
