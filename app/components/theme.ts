@@ -74,7 +74,5 @@ let theme = createTheme({
   },
 })
 
-// Fuentes responsivas automáticas
-theme = responsiveFontSizes(theme)
-
+// Exportar tema sin responsiveFontSizes para evitar problemas con useMediaQuery
 export { theme }

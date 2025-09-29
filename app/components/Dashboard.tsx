@@ -38,6 +38,15 @@ interface DashboardProps {
   successMessage?: string
 }
 
+interface ParsedLogData {
+  userNotes: string;
+  mealType?: string;
+  foods?: string;
+  workoutType?: string;
+  duration?: number;
+  intensity?: string;
+}
+
 export default function Dashboard({ user, userProfile, recentLogs, successMessage }: DashboardProps) {
   const router = useRouter()
   const [isClient, setIsClient] = useState(false)
@@ -301,67 +310,142 @@ export default function Dashboard({ user, userProfile, recentLogs, successMessag
               size="small"
               onClick={() => router.push('/logs')}
             >
-              Ver Todo
+              Ver Historial Completo
             </Button>
           )}
         </Box>
-        <Card>
+        <Card 
+          sx={{
+            cursor: recentLogs.length > 0 ? 'pointer' : 'default',
+            '&:hover': recentLogs.length > 0 ? { boxShadow: 3 } : {}
+          }}
+          onClick={() => recentLogs.length > 0 && router.push('/logs')}
+        >
           <CardContent>
             {recentLogs.length > 0 ? (
-              <List disablePadding>
-                {recentLogs.slice(0, 5).map((log, index) => (
-                  <ListItem
-                    key={log.PK + log.SK}
-                    divider={index < recentLogs.length - 1}
-                    sx={{ px: 0 }}
-                  >
-                    <ListItemIcon>
-                      {getLogIcon(log.type)}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Box component={'span'}  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography component="span" variant="subtitle2">
-                            {getLogLabel(log.type)}
-                          </Typography>
-                          {log.calories && (
-                            <Chip
-                              label={`${log.calories} cal`}
-                              size="small"
-                              variant="outlined"
-                            />
-                          )}
-                        </Box>
-                      }
-                      secondary={
-                        <Box component={'span'}>
-                          <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                            {log.notes}
-                          </Typography>
-                          <Typography component="span" variant="caption" color="text.secondary">
-                            {formatDate(log.timestamp)}
-                          </Typography>
-                        </Box>
-                      }
-                    />
-                  </ListItem>
-                ))}
-              </List>
+              <>
+                <List disablePadding>
+                  {recentLogs.slice(0, 5).map((log, index) => {
+                    // Parsear datos estructurados del log
+                    let parsedData: ParsedLogData = { userNotes: log.notes || '' };
+                    try {
+                      parsedData = JSON.parse(log.notes || '{}') as ParsedLogData;
+                    } catch {
+                      // Si no es JSON válido, mantener las notas como están
+                    }
+
+                    return (
+                      <ListItem
+                        key={log.PK + log.SK}
+                        divider={index < recentLogs.length - 1}
+                        sx={{ px: 0 }}
+                      >
+                        <ListItemIcon>
+                          {getLogIcon(log.type)}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Box component={'span'}  sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                              <Typography component="span" variant="subtitle2">
+                                {getLogLabel(log.type)}
+                              </Typography>
+                              {parsedData.mealType && (
+                                <Chip
+                                  label={parsedData.mealType}
+                                  size="small"
+                                  color="success"
+                                  variant="outlined"
+                                />
+                              )}
+                              {parsedData.workoutType && (
+                                <Chip
+                                  label={parsedData.workoutType}
+                                  size="small"
+                                  color="primary"
+                                  variant="outlined"
+                                />
+                              )}
+                              {log.calories && (
+                                <Chip
+                                  label={`${log.calories} kcal`}
+                                  size="small"
+                                  variant="filled"
+                                  sx={{ 
+                                    bgcolor: log.type === 'MEAL' ? 'success.main' : 'warning.main',
+                                    color: 'white',
+                                    fontSize: '0.75rem'
+                                  }}
+                                />
+                              )}
+                            </Box>
+                          }
+                          secondary={
+                            <Box component={'span'}>
+                              {parsedData.foods && (
+                                <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+                                  <strong>Alimentos:</strong> {parsedData.foods}
+                                </Typography>
+                              )}
+                              {parsedData.duration && (
+                                <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+                                  <strong>Duración:</strong> {parsedData.duration} min • <strong>Intensidad:</strong> {parsedData.intensity}
+                                </Typography>
+                              )}
+                              <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+                                {parsedData.userNotes || 'Sin notas adicionales'}
+                              </Typography>
+                              <Typography component="span" variant="caption" color="text.secondary">
+                                {formatDate(log.timestamp)}
+                              </Typography>
+                            </Box>
+                          }
+                        />
+                      </ListItem>
+                    );
+                  })}
+                </List>
+                {recentLogs.length > 5 && (
+                  <Box component={'span'} sx={{ textAlign: 'center', pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+                    <Typography variant="body2" color="text.secondary">
+                      ... y {recentLogs.length - 5} registros más
+                    </Typography>
+                    <Button 
+                      variant="text" 
+                      size="small" 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push('/logs');
+                      }}
+                    >
+                      Ver todo el historial
+                    </Button>
+                  </Box>
+                )}
+              </>
             ) : (
               <Box component={'span'} sx={{ textAlign: 'center', py: 4 }}>
                 <Typography variant="body1" color="text.secondary" gutterBottom>
                   No hay registros aún
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Comienza registrando tu primera actividad
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                  Comienza registrando tu primera comida o entrenamiento
                 </Typography>
-                <Button
-                  variant="contained"
-                  sx={{ mt: 2 }}
-                  onClick={() => router.push('/log?type=meal')}
-                >
-                  Registrar Comida
-                </Button>
+                <Box component={'span'} sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => router.push('/log?type=meal')}
+                    startIcon={<Restaurant />}
+                  >
+                    Registrar Comida
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => router.push('/log?type=workout')}
+                    startIcon={<FitnessCenter />}
+                  >
+                    Registrar Entrenamiento
+                  </Button>
+                </Box>
               </Box>
             )}
           </CardContent>

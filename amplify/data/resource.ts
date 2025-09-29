@@ -42,12 +42,26 @@ export type UserProfile = ClientSchema<typeof schema>['Item'] & {
 
 export type LogEntry = ClientSchema<typeof schema>['Item'] & {
   PK: `USER#${string}`;
-  SK: `LOG#${'MEAL' | 'WORKOUT'}#${string}`;
+  SK: `LOG#${string}`;
   type: 'MEAL' | 'WORKOUT';
   timestamp: string; // ISO string
-  notes: string;
+  notes: string; // JSON string containing structured data
   calories: number;
 };
+
+// Tipos para los datos estructurados dentro de notes
+export interface MealLogData {
+  userNotes: string;
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'merienda';
+  foods: string;
+}
+
+export interface WorkoutLogData {
+  userNotes: string;
+  workoutType: 'cardio' | 'strength' | 'hiit' | 'yoga' | 'pilates' | 'swimming' | 'other';
+  duration: number; // in minutes
+  intensity: 'low' | 'moderate' | 'high';
+}
 
 
 export type Schema = ClientSchema<typeof schema>;
