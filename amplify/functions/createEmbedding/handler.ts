@@ -30,8 +30,10 @@ export const handler = async (event: DynamoDBStreamEvent) => {
         try {
           // 1. Crear el embedding con OpenAI
           const embeddingResponse = await openai.embeddings.create({
-            model: 'text-embedding-ada-002',
+            model: 'text-embedding-3-small',
             input: notes,
+            dimensions: 512,
+            user: userId,
           });
           const embedding = embeddingResponse.data[0].embedding;
 
