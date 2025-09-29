@@ -80,13 +80,16 @@ export async function createLog(formData: FormData) {
       calories,
     });
 
-    redirect('/?success=Registro guardado con éxito');
-
+    // Si llegamos aquí, el log se creó exitosamente
+    
   } catch (error) {
     console.error('Error al crear el log:', error);
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     redirect(`/log?type=${logType}&error=${encodeURIComponent(errorMessage)}`);
   }
+  
+  // Redirect exitoso fuera del try-catch
+  redirect('/?success=Registro guardado con éxito');
 }
 
 // Función para obtener todos los logs del usuario
@@ -134,12 +137,16 @@ export async function deleteLog(logId: string) {
       PK: `USER#${user.userId}`,
       SK: `LOG#${logId}`
     });
-
-    redirect('/logs?success=Registro eliminado con éxito');
+    
+    // Si llegamos aquí, se eliminó exitosamente
+    
   } catch (error) {
     console.error('Error al eliminar log:', error);
     redirect('/logs?error=Error al eliminar el registro');
   }
+  
+  // Redirect exitoso fuera del try-catch
+  redirect('/logs?success=Registro eliminado con éxito');
 }
 
 // Función para obtener estadísticas del usuario

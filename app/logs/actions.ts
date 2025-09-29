@@ -26,10 +26,14 @@ export async function deleteLogAction(formData: FormData) {
       PK: `USER#${user.userId}`,
       SK: `LOG#${logId}`
     });
-
-    redirect('/logs?success=Registro eliminado con éxito');
+    
+    // Si llegamos aquí, se eliminó exitosamente
+    
   } catch (error) {
     console.error('Error al eliminar log:', error);
     redirect('/logs?error=Error al eliminar el registro');
   }
+  
+  // Redirect exitoso fuera del try-catch
+  redirect('/logs?success=Registro eliminado con éxito');
 }
