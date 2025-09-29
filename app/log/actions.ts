@@ -139,14 +139,13 @@ export async function deleteLog(logId: string) {
     });
     
     // Si llegamos aquí, se eliminó exitosamente
+    redirect('/logs?success=Registro eliminado con éxito');
     
   } catch (error) {
     console.error('Error al eliminar log:', error);
     redirect('/logs?error=Error al eliminar el registro');
   }
   
-  // Redirect exitoso fuera del try-catch
-  redirect('/logs?success=Registro eliminado con éxito');
 }
 
 // Función para obtener estadísticas del usuario

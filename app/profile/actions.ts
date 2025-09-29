@@ -118,15 +118,11 @@ export async function updateUserProfile(formData: FormData) {
       // Crear nuevo perfil
       await cookieBasedClient.models.Item.create(profileData);
     }
-
-    // Si llegamos aquí, se guardó exitosamente
-
+    // Si llegamos aquí, se guardó exitosamente    
+    redirect('/profile?success=Perfil actualizado con éxito');
   } catch (error) {
     console.error('Error al actualizar perfil:', error);
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     redirect(`/profile?error=${encodeURIComponent(errorMessage)}`);
   }
-  
-  // Redirect exitoso fuera del try-catch
-  redirect('/profile?success=Perfil actualizado con éxito');
 }

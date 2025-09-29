@@ -10,7 +10,7 @@ import { GetAuthCurrentUserServer } from '@/utils/utils';
 // Función para eliminar un log
 export async function deleteLogAction(formData: FormData) {
   const logId = formData.get('logId') as string;
-  
+
   const user = await GetAuthCurrentUserServer();
   if (!user) {
     return redirect('/signup');
@@ -26,14 +26,14 @@ export async function deleteLogAction(formData: FormData) {
       PK: `USER#${user.userId}`,
       SK: `LOG#${logId}`
     });
-    
+
     // Si llegamos aquí, se eliminó exitosamente
-    
+    redirect('/logs?success=Registro eliminado con éxito');
+
   } catch (error) {
     console.error('Error al eliminar log:', error);
     redirect('/logs?error=Error al eliminar el registro');
   }
-  
-  // Redirect exitoso fuera del try-catch
-  redirect('/logs?success=Registro eliminado con éxito');
+
+
 }
