@@ -4,6 +4,8 @@ import { getCurrentUser } from "aws-amplify/auth/server";
 import { createServerRunner } from '@aws-amplify/adapter-nextjs'
 import outputs from '@/amplify_outputs.json'
 import { Amplify } from 'aws-amplify';
+import { generateClient } from 'aws-amplify/api';
+import { Schema } from '@/amplify/data/resource';
 // Configura Amplify explícitamente en el entorno server
 Amplify.configure(outputs, { ssr: true })
 
@@ -23,3 +25,7 @@ export async function GetAuthCurrentUserServer() {
     console.log(err)
   }
 }
+
+export const client = generateClient<Schema>({
+  authMode: 'userPool', // Especifica el modo de autorización
+});

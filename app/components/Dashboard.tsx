@@ -12,7 +12,8 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Divider
+  Divider,
+  Alert
 } from '@mui/material'
 import {
   Restaurant,
@@ -27,16 +28,27 @@ import {
 import { AuthUser, signOut } from 'aws-amplify/auth'
 import { UserProfile, LogEntry } from '@/amplify/data/resource'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 
 interface DashboardProps {
   user: AuthUser
   userProfile: UserProfile | null
   recentLogs: LogEntry[]
+  successMessage?: string
 }
 
-export default function Dashboard({ user, userProfile, recentLogs }: DashboardProps) {
+export default function Dashboard({ user, userProfile, recentLogs, successMessage }: DashboardProps) {
   const router = useRouter()
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null
+  }
 
   const handleSignOut = async () => {
     try {
@@ -66,10 +78,10 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
+    <Box component={'span'} sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
       <Container maxWidth="lg" sx={{ py: 3 }}>
         {/* Header simplificado */}
-        <Box sx={{
+        <Box component={'span'} sx={{
           mb: 4,
           display: 'flex',
           alignItems: 'center',
@@ -77,25 +89,26 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
           flexWrap: 'wrap',
           gap: 2
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box component={'span'} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}>
               {user.signInDetails?.loginId?.[0]?.toUpperCase() || 'U'}
             </Avatar>
-            <Box>
+            <Box component={'span'}>
               <Typography variant="h5" fontWeight={600}>
                 Hola, {user.signInDetails?.loginId?.split('@')[0] || 'Usuario'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {new Date().toLocaleDateString('es-ES', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                {new Date().toLocaleDateString('es-ES', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}
               </Typography>
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box component={'span'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            {/* <ThemeToggle /> --- IGNORE --- */}
             <Button
               variant="outlined"
               onClick={() => router.push('/profile')}
@@ -116,9 +129,16 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
           </Box>
         </Box>
 
+        {/* Success Message */}
+        {successMessage && (
+          <Alert severity="success" sx={{ mb: 4 }}>
+            {decodeURIComponent(successMessage)}
+          </Alert>
+        )}
+
         {/* Stats Overview */}
         {userProfile && (
-          <Box sx={{ 
+          <Box component={'span'} sx={{
             display: 'grid',
             gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' },
             gap: 2,
@@ -171,22 +191,22 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
         <Typography variant="h6" fontWeight={600} sx={{ mb: 3 }}>
           Acciones Rápidas
         </Typography>
-        <Box sx={{ 
+        <Box component={'span'} sx={{
           display: 'grid',
           gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
           gap: 3,
           mb: 4
         }}>
-          <Card 
-            sx={{ 
-              cursor: 'pointer', 
+          <Card
+            sx={{
+              cursor: 'pointer',
               height: 140,
               '&:hover': { transform: 'translateY(-2px)', transition: 'all 0.3s' }
             }}
             onClick={() => router.push('/log?type=meal')}
           >
-            <CardContent sx={{ 
-              textAlign: 'center', 
+            <CardContent sx={{
+              textAlign: 'center',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
@@ -199,17 +219,17 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
               </Typography>
             </CardContent>
           </Card>
-          
-          <Card 
-            sx={{ 
-              cursor: 'pointer', 
+
+          <Card
+            sx={{
+              cursor: 'pointer',
               height: 140,
               '&:hover': { transform: 'translateY(-2px)', transition: 'all 0.3s' }
             }}
             onClick={() => router.push('/log?type=workout')}
           >
-            <CardContent sx={{ 
-              textAlign: 'center', 
+            <CardContent sx={{
+              textAlign: 'center',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
@@ -222,17 +242,17 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
               </Typography>
             </CardContent>
           </Card>
-          
-          <Card 
-            sx={{ 
-              cursor: 'pointer', 
+
+          <Card
+            sx={{
+              cursor: 'pointer',
               height: 140,
               '&:hover': { transform: 'translateY(-2px)', transition: 'all 0.3s' }
             }}
             onClick={() => router.push('/chat')}
           >
-            <CardContent sx={{ 
-              textAlign: 'center', 
+            <CardContent sx={{
+              textAlign: 'center',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
@@ -245,17 +265,17 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
               </Typography>
             </CardContent>
           </Card>
-          
-          <Card 
-            sx={{ 
-              cursor: 'pointer', 
+
+          <Card
+            sx={{
+              cursor: 'pointer',
               height: 140,
               '&:hover': { transform: 'translateY(-2px)', transition: 'all 0.3s' }
             }}
             onClick={() => router.push('/analytics')}
           >
-            <CardContent sx={{ 
-              textAlign: 'center', 
+            <CardContent sx={{
+              textAlign: 'center',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
@@ -271,16 +291,27 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
         </Box>
 
         {/* Recent Activity */}
-        <Typography variant="h6" fontWeight={600} sx={{ mb: 3 }}>
-          Actividad Reciente
-        </Typography>
+        <Box component={'span'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography variant="h6" fontWeight={600}>
+            Actividad Reciente
+          </Typography>
+          {recentLogs.length > 0 && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => router.push('/logs')}
+            >
+              Ver Todo
+            </Button>
+          )}
+        </Box>
         <Card>
           <CardContent>
             {recentLogs.length > 0 ? (
               <List disablePadding>
                 {recentLogs.slice(0, 5).map((log, index) => (
-                  <ListItem 
-                    key={log.PK + log.SK} 
+                  <ListItem
+                    key={log.PK + log.SK}
                     divider={index < recentLogs.length - 1}
                     sx={{ px: 0 }}
                   >
@@ -289,25 +320,25 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="subtitle2">
+                        <Box component={'span'}  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography component="span" variant="subtitle2">
                             {getLogLabel(log.type)}
                           </Typography>
                           {log.calories && (
-                            <Chip 
-                              label={`${log.calories} cal`} 
-                              size="small" 
+                            <Chip
+                              label={`${log.calories} cal`}
+                              size="small"
                               variant="outlined"
                             />
                           )}
                         </Box>
                       }
                       secondary={
-                        <Box>
-                          <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                        <Box component={'span'}>
+                          <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
                             {log.notes}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary">
+                          <Typography component="span" variant="caption" color="text.secondary">
                             {formatDate(log.timestamp)}
                           </Typography>
                         </Box>
@@ -317,15 +348,15 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
                 ))}
               </List>
             ) : (
-              <Box sx={{ textAlign: 'center', py: 4 }}>
+              <Box component={'span'} sx={{ textAlign: 'center', py: 4 }}>
                 <Typography variant="body1" color="text.secondary" gutterBottom>
                   No hay registros aún
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Comienza registrando tu primera actividad
                 </Typography>
-                <Button 
-                  variant="contained" 
+                <Button
+                  variant="contained"
                   sx={{ mt: 2 }}
                   onClick={() => router.push('/log?type=meal')}
                 >
@@ -346,8 +377,8 @@ export default function Dashboard({ user, userProfile, recentLogs }: DashboardPr
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                 Añade tu información personal para obtener recomendaciones más precisas
               </Typography>
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 onClick={() => router.push('/profile')}
                 startIcon={<Person />}
               >

@@ -1,56 +1,49 @@
 import { redirect } from 'next/navigation'
-import { GetAuthCurrentUserServer, runWithAmplifyServerContext } from '@/utils/utils'
-import { generateClient } from "aws-amplify/data";
+import { GetAuthCurrentUserServer, runWithAmplifyServerContext, client } from '@/utils/utils'
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data';
 import type { Schema, UserProfile, LogEntry } from "@/amplify/data/resource";
 import { cookies } from 'next/headers'
 import Dashboard from './components/Dashboard'
 import "@aws-amplify/ui-react/styles.css";
+import outputs from '@/amplify_outputs.json';
 
+const cookieBasedClient = generateServerClientUsingCookies<Schema>({
+  config: outputs,
+  cookies, // Pasa las cookies directamente
+});
 
-
-const client = generateClient<Schema>();
-
-async function getUserProfile(userId: string) {
+async function getRecentLogs(userId: string, limit: number = 3): Promise<any[]> {
   try {
-    const profile = await runWithAmplifyServerContext({
-      nextServerContext: { cookies },
-      operation: async (context: any) => {
-        const { data } = await client.models.Item.list({
-          filter: {
-            PK: { eq: `USER#${userId}` },
-            SK: { eq: 'PROFILE' }
-          }
-        })
-        return data[0] || null
+
+    const { data } = await cookieBasedClient.models.Item.list({
+      filter: {
+        PK: { eq: `USER#${userId}` },
+        SK: { beginsWith: 'LOG#' }
       }
-    })
-    return profile
+    });
+
+    return data
+      .slice(0, limit);
+
   } catch (error) {
-    console.error('Error fetching user profile:', error)
-    return null
+    console.error('Error fetching user logs:', error);
+    return [];
   }
 }
 
-async function getRecentLogs(userId: string, limit: number = 3) {
+async function getUserProfile(userId: string) {
+  // same as above, but for user profile
   try {
-    const logs = await runWithAmplifyServerContext({
-      nextServerContext: { cookies },
-      operation: async (context: any) => {
-        const { data } = await client.models.Item.list({
-          filter: {
-            PK: { eq: `USER#${userId}` },
-            SK: { beginsWith: 'LOG#' }
-          }
-        })
-        return data
-          .sort((a, b) => new Date(b.timestamp || '').getTime() - new Date(a.timestamp || '').getTime())
-          .slice(0, limit)
+    const { data } = await cookieBasedClient.models.Item.list({
+      filter: {
+        PK: { eq: `USER#${userId}` },
+        SK: { eq: 'PROFILE' }
       }
-    })
-    return logs
+    });
+    return data[0] || null;
   } catch (error) {
-    console.error('Error fetching recent logs:', error)
-    return []
+    console.error('Error fetching user profile:', error);
+    return null;
   }
 }
 
@@ -69,7 +62,7 @@ export default async function App() {
   const recentLogs = await getRecentLogs(userId) as unknown as LogEntry[]
 
   return (
-    <Dashboard 
+    <Dashboard
       user={user}
       userProfile={userProfile}
       recentLogs={recentLogs}
