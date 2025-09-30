@@ -121,6 +121,9 @@ export async function updateUserProfile(formData: FormData) {
     // Si llegamos aquí, se guardó exitosamente    
     redirect('/profile?success=Perfil actualizado con éxito');
   } catch (error) {
+    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      throw error; // dejar que Next.js haga el redirect sin notificación
+    }
     console.error('Error al actualizar perfil:', error);
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     redirect(`/profile?error=${encodeURIComponent(errorMessage)}`);

@@ -83,6 +83,7 @@ const INTENSITY_LEVELS = [
 export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
+  const success = searchParams.get('success');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     notes: '',
@@ -125,14 +126,14 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
 
   const handleSubmit = async (formDataObj: FormData) => {
     setIsSubmitting(true);
-    
+
     // Agregar los campos adicionales al FormData
     formDataObj.append('mealType', formData.mealType);
     formDataObj.append('foods', formData.foods);
     formDataObj.append('workoutType', formData.workoutType);
     formDataObj.append('duration', formData.duration.toString());
     formDataObj.append('intensity', formData.intensity);
-    
+
     await createLog(formDataObj);
     setIsSubmitting(false);
   };
@@ -190,7 +191,7 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
                   <Category color="action" />
                   {isMeal ? 'Tipo de Comida' : 'Tipo de Entrenamiento'}
                 </Typography>
-                
+
                 {isMeal ? (
                   <FormControl fullWidth required>
                     <InputLabel>Selecciona el tipo de comida</InputLabel>
@@ -317,7 +318,7 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
                       Lista detallada de los alimentos y sus porciones
                     </Typography>
                   </Box>
-                  
+
                   <TextField
                     required
                     fullWidth
@@ -352,7 +353,7 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
                     {isMeal ? 'Comparte tu experiencia con esta comida' : 'Describe cómo te sentiste durante el entrenamiento'}
                   </Typography>
                 </Box>
-                
+
                 <TextField
                   required
                   fullWidth
@@ -429,17 +430,17 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
 
               {/* Info Alert */}
               <Box>
-                <Alert 
-                  severity="info" 
+                <Alert
+                  severity="info"
                   icon={<Info />}
-                  sx={{ 
-                    bgcolor: 'info.light', 
+                  sx={{
+                    bgcolor: 'info.light',
                     color: 'info.contrastText',
                     '& .MuiAlert-icon': { color: 'info.main' }
                   }}
                 >
                   <Typography variant="body2">
-                    💡 <strong>Consejo:</strong> {isMeal 
+                    💡 <strong>Consejo:</strong> {isMeal
                       ? 'Incluye detalles sobre porciones, método de cocción y acompañamientos para un registro más preciso.'
                       : 'Anota la duración, intensidad y cualquier detalle relevante de tu entrenamiento.'
                     }
@@ -458,6 +459,17 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
                 </Box>
               )}
 
+              {/* Success Message */}
+              {success && (
+                <Box>
+                  <Fade in={!!success}>
+                    <Alert severity="success" sx={{ mb: 2 }}>
+                      <Typography variant="body2">{success}</Typography>
+                    </Alert>
+                  </Fade>
+                </Box>
+              )}
+
               {/* Submit Button */}
               <Box>
                 <Divider sx={{ my: 2 }} />
@@ -468,8 +480,8 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
                     size="large"
                     color={color}
                     disabled={
-                      isSubmitting || 
-                      !formData.notes.trim() || 
+                      isSubmitting ||
+                      !formData.notes.trim() ||
                       !formData.calories ||
                       (isMeal && (!formData.mealType || !formData.foods.trim())) ||
                       (!isMeal && !formData.workoutType)
@@ -495,7 +507,7 @@ export default function LogForm({ logType }: { logType: 'meal' | 'workout' }) {
                   >
                     {isSubmitting ? 'Guardando...' : 'Guardar Registro'}
                   </Button>
-                  
+
                   <Tooltip title="Los datos se guardarán de forma segura">
                     <IconButton color="info">
                       <Info />

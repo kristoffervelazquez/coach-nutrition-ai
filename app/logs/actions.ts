@@ -31,6 +31,9 @@ export async function deleteLogAction(formData: FormData) {
     redirect('/logs?success=Registro eliminado con éxito');
 
   } catch (error) {
+    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      throw error; // dejar que Next.js haga el redirect sin notificación
+    }
     console.error('Error al eliminar log:', error);
     redirect('/logs?error=Error al eliminar el registro');
   }
