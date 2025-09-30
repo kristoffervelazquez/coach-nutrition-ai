@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import LogForm from './components/LogForm';
+import LogView from './components/LogView';
 
 
 // Un componente de carga simple para el fallback de Suspense
@@ -18,7 +18,7 @@ export default function LogPage({
 
     <Suspense fallback={<Loading />}>
       {/* Pasamos el tipo de log al formulario */}
-      <LogForm logType={logType} />
+      <LogView logType={logType} />
     </Suspense>
 
   );
