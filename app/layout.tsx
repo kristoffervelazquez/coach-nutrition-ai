@@ -2,7 +2,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ConfigureAmplify from "@/utils/configureAmplify";
-import MuiProvider from './components/MuiProvider';
+import MuiProvider from './components/layout/MuiProvider'
+import Header from './components/layout/Header'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

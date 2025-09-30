@@ -1,11 +1,6 @@
 import { Suspense } from 'react';
-import LogView from './components/LogView';
-
-
-// Un componente de carga simple para el fallback de Suspense
-function Loading() {
-  return <div>Cargando...</div>;
-}
+import LogView from '../components/log-form/LogView';
+import LogFormSkeleton from '../components/ui/skeletons/LogFormSkeleton';
 
 export default function LogPage({
   searchParams,
@@ -15,11 +10,8 @@ export default function LogPage({
   const logType = searchParams?.type === 'workout' ? 'workout' : 'meal';
 
   return (
-
-    <Suspense fallback={<Loading />}>
-      {/* Pasamos el tipo de log al formulario */}
+    <Suspense fallback={<LogFormSkeleton />}>
       <LogView logType={logType} />
     </Suspense>
-
   );
 }

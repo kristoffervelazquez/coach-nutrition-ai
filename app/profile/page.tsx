@@ -1,17 +1,10 @@
 import { Suspense } from 'react';
 import { getUserProfile } from './actions';
-import ProfileForm from './components/ProfileForm';
-import { CircularProgress, Box } from '@mui/material';
+import ProfileForm from '../components/profile/ProfileForm';
 import { GetAuthCurrentUserServer } from '@/utils/utils';
 import { redirect } from 'next/navigation';
+import LogFormSkeleton from '../components/ui/skeletons/LogFormSkeleton';
 
-function Loading() {
-  return (
-    <div >
-      cargando
-    </div>
-  );
-}
 
 export default async function ProfilePage({
   searchParams,
@@ -28,7 +21,7 @@ export default async function ProfilePage({
   const userProfile = await getUserProfile();
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<LogFormSkeleton />}>
       <ProfileForm
         user={user}
         initialProfile={userProfile}

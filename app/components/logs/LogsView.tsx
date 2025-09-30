@@ -6,14 +6,14 @@ import {
   Alert,
   Snackbar
 } from '@mui/material';
-import { deleteLogAction } from '../actions';
+import { deleteLogAction } from '../../logs/actions';
 import { useRouter } from 'next/navigation';
-import LogsHeader from '../../components/logs/LogsHeader';
-import LogsStats from '../../components/logs/LogsStats';
-import LogsControls from '../../components/logs/LogsControls';
-import EmptyLogsState from '../../components/logs/EmptyLogsState';
-import LogsList from '../../components/logs/LogsList';
-import DeleteDialog from '../../components/logs/DeleteDialog';
+import LogsHeader from './LogsHeader';
+import LogsStats from './LogsStats';
+import LogsControls from './LogsControls';
+import EmptyLogsState from './EmptyLogsState';
+import LogsList from './LogsList';
+import DeleteDialog from './DeleteDialog';
 
 interface LogEntry {
   PK: string;

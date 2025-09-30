@@ -3,7 +3,9 @@ import { GetAuthCurrentUserServer, runWithAmplifyServerContext, client } from '@
 import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data';
 import type { Schema, UserProfile, LogEntry } from "@/amplify/data/resource";
 import { cookies } from 'next/headers'
-import Dashboard from './components/Dashboard'
+import { Suspense } from 'react'
+import Dashboard from './components/dashboard/Dashboard'
+import DashboardSkeleton from './components/ui/skeletons/DashboardSkeleton'
 import "@aws-amplify/ui-react/styles.css";
 import outputs from '@/amplify_outputs.json';
 
@@ -62,10 +64,12 @@ export default async function App() {
   const recentLogs = await getRecentLogs(userId) as unknown as LogEntry[]
 
   return (
-    <Dashboard
-      user={user}
-      userProfile={userProfile}
-      recentLogs={recentLogs}
-    />
+    <Suspense fallback={<DashboardSkeleton />}>
+      <Dashboard
+        user={user}
+        userProfile={userProfile}
+        recentLogs={recentLogs}
+      />
+    </Suspense>
   );
 }

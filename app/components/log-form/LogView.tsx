@@ -8,18 +8,18 @@ import {
   Paper,
   Stack
 } from '@mui/material';
-import { createLog } from '../actions';
+import { createLog } from '../../log/actions';
 
 // Componentes del formulario
-import LogHeader from './form/LogHeader';
-import MealTypeSelector from './form/MealTypeSelector';
-import WorkoutTypeSelector from './form/WorkoutTypeSelector';
-import DurationSlider from './form/DurationSlider';
-import IntensitySelector from './form/IntensitySelector';
-import FoodsInput from './form/FoodsInput';
-import NotesInput from './form/NotesInput';
-import CaloriesInput from './form/CaloriesInput';
-import FormActions from './form/FormActions';
+import LogHeader from './LogHeader';
+import MealTypeSelector from './MealTypeSelector';
+import WorkoutTypeSelector from './WorkoutTypeSelector';
+import DurationSlider from './DurationSlider';
+import IntensitySelector from './IntensitySelector';
+import FoodsInput from './FoodsInput';
+import NotesInput from './NotesInput';
+import CaloriesInput from './CaloriesInput';
+import FormActions from './FormActions';
 
 export default function LogView({ logType }: { logType: 'meal' | 'workout' }) {
   const searchParams = useSearchParams();

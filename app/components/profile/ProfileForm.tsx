@@ -10,15 +10,15 @@ import {
   Stack,
   Divider
 } from '@mui/material';
-import { updateUserProfile } from '../actions';
+import { updateUserProfile } from '../../profile/actions';
 import { AuthUser } from 'aws-amplify/auth';
 import { UserProfile } from '@/amplify/data/resource';
-import ProfileHeader from '../../components/profile/ProfileHeader';
-import BMICard from '../../components/profile/BMICard';
-import PersonalInfoSection from '../../components/profile/PersonalInfoSection';
-import PhysicalInfoSection from '../../components/profile/PhysicalInfoSection';
-import GoalsSection from '../../components/profile/GoalsSection';
-import SaveButtonSection from '../../components/profile/SaveButtonSection';
+import ProfileHeader from './ProfileHeader';
+import BMICard from './BMICard';
+import PersonalInfoSection from './PersonalInfoSection';
+import PhysicalInfoSection from './PhysicalInfoSection';
+import GoalsSection from './GoalsSection';
+import SaveButtonSection from './SaveButtonSection';
 
 interface ProfileFormProps {
   user: AuthUser;

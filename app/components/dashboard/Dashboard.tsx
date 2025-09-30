@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import {
   Container,
   Box,
@@ -7,11 +8,11 @@ import {
 import { AuthUser } from 'aws-amplify/auth'
 import { UserProfile, LogEntry } from '@/amplify/data/resource'
 import { useEffect, useState } from 'react'
-import UserHeader from './dashboard/UserHeader'
-import StatsOverview from './dashboard/StatsOverview'
-import QuickActions from './dashboard/QuickActions'
-import RecentActivity from './dashboard/RecentActivity'
-import ProfileSetupCTA from './dashboard/ProfileSetupCTA'
+import UserHeader from './UserHeader'
+import StatsOverview from './StatsOverview'
+import QuickActions from './QuickActions'
+import RecentActivity from './RecentActivity'
+import ProfileSetupCTA from './ProfileSetupCTA'
 
 
 interface DashboardProps {

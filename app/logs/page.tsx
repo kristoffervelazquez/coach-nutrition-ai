@@ -1,16 +1,8 @@
 import { Suspense } from 'react';
 import { getUserLogs, getUserStats } from '../log/actions';
-import LogsView from './components/LogsView';
-import { CircularProgress, Box } from '@mui/material';
+import LogsView from '../components/logs/LogsView';
+import LogsSkeleton from '../components/ui/skeletons/LogsSkeleton';
 import { LogEntry } from '@/amplify/data/resource';
-
-function Loading() {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
-      cargando...
-    </div>
-  );
-}
 
 export default async function LogsPage({
   searchParams,
@@ -23,7 +15,7 @@ export default async function LogsPage({
   ]);
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<LogsSkeleton />}>
       <LogsView 
         initialLogs={logs as unknown as LogEntry[]} 
         stats={stats}
