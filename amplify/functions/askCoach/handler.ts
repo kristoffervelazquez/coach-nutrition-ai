@@ -9,7 +9,7 @@ import { generateClient } from 'aws-amplify/data';
 import { Schema } from '../../data/resource';
 type Arguments = {
   prompt: string;
-  sessionId?: string; // Ahora la Lambda recibe el sessionId
+  sessionId?: string;
 };
 
 // Inicialización de clientes
@@ -111,6 +111,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
 
       Pregunta del Usuario: "${prompt}"
 
+      Responde en el idioma de la pregunta del usuario de manera clara y concisa, proporcionando recomendaciones prácticas y motivadoras.
       Respuesta:
     `;
 

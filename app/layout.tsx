@@ -2,8 +2,9 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ConfigureAmplify from "@/utils/configureAmplify";
-import MuiProvider from './components/layout/MuiProvider'
-import Header from './components/layout/Header'
+import MuiProvider from './components/layout/MuiProvider';
+import Header from './components/layout/Header';
+import { LanguageProvider } from './contexts/LanguageContext';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,9 +22,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <ConfigureAmplify />
-          <MuiProvider>
-            {children}
-          </MuiProvider>
+          <LanguageProvider>
+            <MuiProvider>
+              {children}
+            </MuiProvider>
+          </LanguageProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

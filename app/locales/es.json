@@ -1,0 +1,113 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "send": "Enviar",
+    "retry": "Reintentar"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "chat": "Chat",
+    "profile": "Perfil",
+    "logs": "Registros",
+    "settings": "Configuración",
+    "backToDashboard": "Volver al Dashboard"
+  },
+  "chat": {
+    "title": "Coach AI",
+    "newConversation": "Nueva conversación",
+    "loadingConversations": "Cargando conversaciones...",
+    "noConversations": "No hay conversaciones aún",
+    "noConversationsSubtext": "Inicia una nueva conversación con tu Coach AI",
+    "greeting": "¡Hola! Soy tu Coach AI 👋",
+    "greetingSubtext": "Estoy aquí para ayudarte con tus objetivos de nutrición, fitness y bienestar.",
+    "canAskAbout": "Puedes preguntarme sobre:",
+    "mealPlans": "🥗 Planes alimentarios y recetas saludables",
+    "workoutRoutines": "💪 Rutinas de entrenamiento personalizadas",
+    "goalStrategies": "🎯 Estrategias para alcanzar tus metas",
+    "progressAnalysis": "📊 Análisis de tu progreso y registros",
+    "placeholder": "Pregúntale algo a tu Coach AI...",
+    "placeholderNoSession": "Selecciona o crea una conversación",
+    "sending": "Enviando...",
+    "errorSending": "Error al enviar el mensaje",
+    "errorLoading": "No se pudieron cargar los mensajes",
+    "errorLoadingSessions": "No se pudieron cargar las sesiones",
+    "deleteConversation": "Eliminar conversación",
+    "disclaimer": "Coach AI puede cometer errores. Verifica información importante.",
+    "timeGroups": {
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "last7days": "Hace 7 días",
+      "last30days": "Hace 30 días",
+      "older": "Anteriores"
+    },
+    "errors": {
+      "generic": "Lo siento, ocurrió un error al procesar tu mensaje. Por favor, inténtalo de nuevo.",
+      "network": "Error de conexión. Por favor verifica tu conexión a internet.",
+      "sessionNotFound": "Sesión no encontrada. Por favor inicia una nueva conversación."
+    }
+  },
+  "dashboard": {
+    "welcome": "Hola",
+    "statsTitle": "Estadísticas",
+    "quickActions": "Acciones Rápidas", 
+    "recentActivity": "Actividad Reciente",
+    "profileSetupText": "Completa tu perfil para obtener recomendaciones personalizadas",
+    "actions": {
+      "logFood": "Registrar Comida",
+      "workout": "Entrenamientos", 
+      "aiCoach": "Coach IA",
+      "analytics": "Analíticas"
+    },
+    "activity": {
+      "viewCompleteHistory": "Ver Historial Completo",
+      "noRecords": "No hay registros aún",
+      "getStarted": "Comienza registrando tu primera comida o entrenamiento",
+      "logMeal": "Registrar Comida",
+      "logWorkout": "Registrar Entrenamiento",
+      "moreRecords": "... y {count} registros más",
+      "viewAllHistory": "Ver todo el historial"
+    },
+    "stats": {
+      "weight": "Peso (kg)",
+      "height": "Altura (cm)",
+      "age": "Edad (años)",
+      "records": "Registros"
+    },
+    "profileSetup": {
+      "title": "Completa tu perfil",
+      "description": "Añade tu información personal para obtener recomendaciones más precisas",
+      "setupProfile": "Configurar Perfil"
+    }
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "personalInfo": "Información Personal",
+    "physicalInfo": "Información Física",
+    "goals": "Objetivos",
+    "save": "Guardar Cambios"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "signup": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "email": "Correo Electrónico",
+    "password": "Contraseña", 
+    "confirmPassword": "Confirmar Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "alreadyHaveAccount": "¿Ya tienes cuenta?",
+    "dontHaveAccount": "¿No tienes cuenta?",
+    "user": "Usuario"
+  },
+  "language": {
+    "label": "Idioma",
+    "english": "English",
+    "spanish": "Español",
+    "description": "Selecciona tu idioma preferido. Esta configuración se aplicará a toda la aplicación."
+  }
+}

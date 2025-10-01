@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ChatSidebar from './ChatSidebar';
 import ChatMessages from './ChatMessages';
 import { askCoach, getChatSessions, getChatMessages, deleteChatSession } from '@/app/chat/actions';
+import { useTranslation } from '@/app/hooks/useTranslation';
 import './chat.css';
 
 interface ChatSession {
@@ -30,6 +31,8 @@ export default function MultiChatInterface() {
   const [isLoadingSessions, setIsLoadingSessions] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  const t = useTranslation();
 
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export default function MultiChatInterface() {
       }
     } catch (error) {
       console.error('Error loading sessions:', error);
-      setError('No se pudieron cargar las sesiones');
+      setError(t('chat.errorLoadingSessions'));
       // En caso de error, crear una nueva sesión
       handleNewChat();
     } finally {
@@ -81,7 +84,7 @@ export default function MultiChatInterface() {
       setMessages(messages);
     } catch (error) {
       console.error('Error loading messages:', error);
-      setError('No se pudieron cargar los mensajes');
+      setError(t('chat.errorLoading'));
       setMessages([]);
     }
   };
@@ -140,11 +143,11 @@ export default function MultiChatInterface() {
       const errorMessage: Message = {
         id: `msg-${Date.now()}-error`,
         role: 'assistant',
-        content: 'Lo siento, ocurrió un error al procesar tu mensaje. Por favor, inténtalo de nuevo.',
+        content: t('chat.errors.generic'),
         timestamp: new Date().toISOString()
       };
       setMessages(prev => [...prev, errorMessage]);
-      setError('Error al enviar el mensaje');
+      setError(t('chat.errorSending'));
     } finally {
       setIsLoading(false);
     }
@@ -257,7 +260,7 @@ export default function MultiChatInterface() {
           onSendMessage={handleSendMessage}
           loading={isLoading}
           disabled={!activeSessionId}
-          placeholder={!activeSessionId ? "Selecciona o crea una conversación" : "Pregúntale algo a tu Coach AI..."}
+          placeholder={!activeSessionId ? t('chat.placeholderNoSession') : t('chat.placeholder')}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           sidebarOpen={sidebarOpen}
         />

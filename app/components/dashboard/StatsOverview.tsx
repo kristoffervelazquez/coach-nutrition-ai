@@ -3,6 +3,7 @@
 import { Box } from '@mui/material';
 import { UserProfile, LogEntry } from '@/amplify/data/resource';
 import StatsCard from '../ui/StatsCard';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface StatsOverviewProps {
   userProfile: UserProfile | null;
@@ -10,6 +11,8 @@ interface StatsOverviewProps {
 }
 
 export default function StatsOverview({ userProfile, recentLogs }: StatsOverviewProps) {
+  const t = useTranslation();
+  
   if (!userProfile) return null;
 
   return (
@@ -21,22 +24,22 @@ export default function StatsOverview({ userProfile, recentLogs }: StatsOverview
     }}>
       <StatsCard
         value={userProfile.weight}
-        label="Peso (kg)"
+        label={t('dashboard.stats.weight')}
         color="primary"
       />
       <StatsCard
         value={userProfile.height}
-        label="Altura (cm)"
+        label={t('dashboard.stats.height')}
         color="primary"
       />
       <StatsCard
         value={userProfile.age}
-        label="Edad (años)"
+        label={t('dashboard.stats.age')}
         color="primary"
       />
       <StatsCard
         value={recentLogs.length}
-        label="Registros"
+        label={t('dashboard.stats.records')}
         color="primary"
       />
     </Box>

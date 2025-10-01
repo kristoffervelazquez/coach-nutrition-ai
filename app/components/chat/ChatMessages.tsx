@@ -19,6 +19,7 @@ import {
   Person as UserIcon,
   Menu as MenuIcon
 } from '@mui/icons-material';
+import { useTranslation } from '@/app/hooks/useTranslation';
 
 interface Message {
   id: string;
@@ -49,6 +50,8 @@ export default function ChatMessages({
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  
+  const t = useTranslation();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -109,7 +112,7 @@ export default function ChatMessages({
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" fontWeight={600}>
-            Coach AI
+            {t('chat.title')}
           </Typography>
         </Box>
       )}
@@ -152,29 +155,29 @@ export default function ChatMessages({
             </Avatar>
             
             <Typography variant="h5" fontWeight={600} gutterBottom sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}>
-              ¡Hola! Soy tu Coach AI 👋
+              {t('chat.greeting')}
             </Typography>
             
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.9rem', md: '1rem' } }}>
-              Estoy aquí para ayudarte con tus objetivos de nutrición, fitness y bienestar.
+              {t('chat.greetingSubtext')}
             </Typography>
             
             <Box sx={{ textAlign: 'left', width: '100%' }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                Puedes preguntarme sobre:
+                {t('chat.canAskAbout')}
               </Typography>
               <Box component="ul" sx={{ m: 0, pl: 2, fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
                 <Typography component="li" variant="body2" color="text.secondary">
-                  🥗 Planes alimentarios y recetas saludables
+                  {t('chat.mealPlans')}
                 </Typography>
                 <Typography component="li" variant="body2" color="text.secondary">
-                  💪 Rutinas de entrenamiento personalizadas
+                  {t('chat.workoutRoutines')}
                 </Typography>
                 <Typography component="li" variant="body2" color="text.secondary">
-                  🎯 Estrategias para alcanzar tus metas
+                  {t('chat.goalStrategies')}
                 </Typography>
                 <Typography component="li" variant="body2" color="text.secondary">
-                  📊 Análisis de tu progreso y registros
+                  {t('chat.progressAnalysis')}
                 </Typography>
               </Box>
             </Box>
@@ -332,7 +335,7 @@ export default function ChatMessages({
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <Tooltip title={input.trim() ? "Enviar mensaje" : "Escribe algo..."}>
+                  <Tooltip title={input.trim() ? t('common.send') : t('chat.placeholder')}>
                     <span>
                       <IconButton
                         type="submit"
@@ -369,7 +372,7 @@ export default function ChatMessages({
             fontSize: { xs: '0.7rem', md: '0.75rem' }
           }}
         >
-          Coach AI puede cometer errores. Verifica información importante.
+          {t('chat.disclaimer')}
         </Typography>
       </Box>
     </Box>

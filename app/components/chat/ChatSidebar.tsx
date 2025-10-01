@@ -26,6 +26,7 @@ import {
   AccessTime as TimeIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
+import { useTranslation } from '@/app/hooks/useTranslation';
 
 interface ChatSession {
   id: string;
@@ -57,6 +58,8 @@ export default function ChatSidebar({
 }: ChatSidebarProps) {
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [selectedSessionForMenu, setSelectedSessionForMenu] = useState<string | null>(null);
+  
+  const t = useTranslation();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, sessionId: string) => {
     event.stopPropagation();
@@ -87,7 +90,7 @@ export default function ChatSidebar({
         minute: '2-digit' 
       });
     } else if (diffInHours < 48) {
-      return 'Ayer';
+      return t('chat.timeGroups.yesterday');
     } else {
       return date.toLocaleDateString('es-ES', { 
         day: '2-digit', 
@@ -98,11 +101,11 @@ export default function ChatSidebar({
 
   const groupSessionsByDate = (sessions: ChatSession[]) => {
     const groups: { [key: string]: ChatSession[] } = {
-      'Hoy': [],
-      'Ayer': [],
-      'Hace 7 días': [],
-      'Hace 30 días': [],
-      'Anteriores': []
+      [t('chat.timeGroups.today')]: [],
+      [t('chat.timeGroups.yesterday')]: [],
+      [t('chat.timeGroups.last7days')]: [],
+      [t('chat.timeGroups.last30days')]: [],
+      [t('chat.timeGroups.older')]: []
     };
 
     sessions.forEach(session => {
@@ -112,15 +115,15 @@ export default function ChatSidebar({
       const diffInDays = diffInHours / 24;
 
       if (diffInHours < 24) {
-        groups['Hoy'].push(session);
+        groups[t('chat.timeGroups.today')].push(session);
       } else if (diffInDays < 2) {
-        groups['Ayer'].push(session);
+        groups[t('chat.timeGroups.yesterday')].push(session);
       } else if (diffInDays < 7) {
-        groups['Hace 7 días'].push(session);
+        groups[t('chat.timeGroups.last7days')].push(session);
       } else if (diffInDays < 30) {
-        groups['Hace 30 días'].push(session);
+        groups[t('chat.timeGroups.last30days')].push(session);
       } else {
-        groups['Anteriores'].push(session);
+        groups[t('chat.timeGroups.older')].push(session);
       }
     });
 
@@ -143,7 +146,7 @@ export default function ChatSidebar({
     >
 
       <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-
+        {/* Header con controles */}
         {onToggleSidebar && (
           <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', mb: 1 }}>
             <IconButton onClick={onToggleSidebar} size="small">
@@ -165,7 +168,7 @@ export default function ChatSidebar({
             fontSize: '0.9rem'
           }}
         >
-          Nueva conversación
+          {t('chat.newConversation')}
         </Button>
       </Box>
 
@@ -174,17 +177,17 @@ export default function ChatSidebar({
         {loading ? (
           <Box sx={{ p: 2, textAlign: 'center' }}>
             <Typography variant="body2" color="text.secondary">
-              Cargando conversaciones...
+              {t('chat.loadingConversations')}
             </Typography>
           </Box>
         ) : sessions.length === 0 ? (
           <Box sx={{ p: 2, textAlign: 'center' }}>
             <ChatIcon sx={{ fontSize: 48, color: 'text.disabled', mb: 1 }} />
             <Typography variant="body2" color="text.secondary">
-              No hay conversaciones aún
+              {t('chat.noConversations')}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Inicia una nueva conversación con tu Coach AI
+              {t('chat.noConversationsSubtext')}
             </Typography>
           </Box>
         ) : (
@@ -304,7 +307,7 @@ export default function ChatSidebar({
       >
         <MenuItem onClick={handleDeleteSession} sx={{ color: 'error.main' }}>
           <DeleteIcon sx={{ mr: 1, fontSize: 20 }} />
-          Eliminar conversación
+          {t('chat.deleteConversation')}
         </MenuItem>
       </Menu>
     </Box>

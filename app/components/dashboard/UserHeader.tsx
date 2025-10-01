@@ -6,9 +6,11 @@ import {
   Typography,
   Button
 } from '@mui/material';
-import { Person, Logout } from '@mui/icons-material';
+import { Person, Logout, Settings } from '@mui/icons-material';
 import { AuthUser, signOut } from 'aws-amplify/auth';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/app/hooks/useTranslation';
+import LanguageSelector from '@/app/components/ui/LanguageSelector';
 
 interface UserHeaderProps {
   user: AuthUser;
@@ -16,6 +18,7 @@ interface UserHeaderProps {
 
 export default function UserHeader({ user }: UserHeaderProps) {
   const router = useRouter();
+  const t = useTranslation();
 
   const handleSignOut = async () => {
     try {
@@ -41,7 +44,7 @@ export default function UserHeader({ user }: UserHeaderProps) {
         </Avatar>
         <Box>
           <Typography variant="h5" fontWeight={600}>
-            Hola, {user.signInDetails?.loginId?.split('@')[0] || 'Usuario'}
+            {t('dashboard.welcome')}, {user.signInDetails?.loginId?.split('@')[0] || t('auth.user')}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {new Date().toLocaleDateString('es-ES', {
@@ -53,15 +56,28 @@ export default function UserHeader({ user }: UserHeaderProps) {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+        {/* Selector de Idioma */}
+        <LanguageSelector variant="text" />
+        
         <Button
           variant="outlined"
           onClick={() => router.push('/profile')}
           startIcon={<Person />}
-          sx={{ mr: 1 }}
+          size="small"
         >
-          Mi Perfil
+          {t('profile.title')}
         </Button>
+        
+        <Button
+          variant="outlined"
+          onClick={() => router.push('/settings')}
+          startIcon={<Settings />}
+          size="small"
+        >
+          {t('navigation.settings')}
+        </Button>
+        
         <Button
           variant="contained"
           color="error"
@@ -69,7 +85,7 @@ export default function UserHeader({ user }: UserHeaderProps) {
           startIcon={<Logout />}
           size="small"
         >
-          Salir
+          {t('auth.logout')}
         </Button>
       </Box>
     </Box>

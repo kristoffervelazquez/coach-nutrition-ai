@@ -12,6 +12,7 @@ import { Restaurant, FitnessCenter } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { LogEntry } from '@/amplify/data/resource';
 import LogItem from '../ui/LogItem';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface RecentActivityProps {
   recentLogs: LogEntry[];
@@ -19,12 +20,13 @@ interface RecentActivityProps {
 
 export default function RecentActivity({ recentLogs }: RecentActivityProps) {
   const router = useRouter();
+  const t = useTranslation();
 
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h6" fontWeight={600}>
-          Actividad Reciente
+          {t('dashboard.recentActivity')}
         </Typography>
         {recentLogs.length > 0 && (
           <Button
@@ -32,7 +34,7 @@ export default function RecentActivity({ recentLogs }: RecentActivityProps) {
             size="small"
             onClick={() => router.push('/logs')}
           >
-            Ver Historial Completo
+            {t('dashboard.activity.viewCompleteHistory')}
           </Button>
         )}
       </Box>
@@ -59,7 +61,7 @@ export default function RecentActivity({ recentLogs }: RecentActivityProps) {
               {recentLogs.length > 5 && (
                 <Box sx={{ textAlign: 'center', pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
                   <Typography variant="body2" color="text.secondary">
-                    ... y {recentLogs.length - 5} registros más
+                    {t('dashboard.activity.moreRecords', { count: (recentLogs.length - 5).toString() })}
                   </Typography>
                   <Button 
                     variant="text" 
@@ -69,7 +71,7 @@ export default function RecentActivity({ recentLogs }: RecentActivityProps) {
                       router.push('/logs');
                     }}
                   >
-                    Ver todo el historial
+                    {t('dashboard.activity.viewAllHistory')}
                   </Button>
                 </Box>
               )}
@@ -77,10 +79,10 @@ export default function RecentActivity({ recentLogs }: RecentActivityProps) {
           ) : (
             <Box sx={{ textAlign: 'center', py: 4 }}>
               <Typography variant="body1" color="text.secondary" gutterBottom>
-                No hay registros aún
+                {t('dashboard.activity.noRecords')}
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Comienza registrando tu primera comida o entrenamiento
+                {t('dashboard.activity.getStarted')}
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Button
@@ -88,14 +90,14 @@ export default function RecentActivity({ recentLogs }: RecentActivityProps) {
                   onClick={() => router.push('/log?type=meal')}
                   startIcon={<Restaurant />}
                 >
-                  Registrar Comida
+                  {t('dashboard.activity.logMeal')}
                 </Button>
                 <Button
                   variant="outlined"
                   onClick={() => router.push('/log?type=workout')}
                   startIcon={<FitnessCenter />}
                 >
-                  Registrar Entrenamiento
+                  {t('dashboard.activity.logWorkout')}
                 </Button>
               </Box>
             </Box>

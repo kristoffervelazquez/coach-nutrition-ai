@@ -1,0 +1,113 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "send": "Send",
+    "retry": "Retry"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "chat": "Chat", 
+    "profile": "Profile",
+    "logs": "Logs",
+    "settings": "Settings",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "chat": {
+    "title": "Coach AI",
+    "newConversation": "New conversation",
+    "loadingConversations": "Loading conversations...",
+    "noConversations": "No conversations yet",
+    "noConversationsSubtext": "Start a new conversation with your AI Coach",
+    "greeting": "Hi! I'm your AI Coach 👋",
+    "greetingSubtext": "I'm here to help you with your nutrition, fitness and wellness goals.",
+    "canAskAbout": "You can ask me about:",
+    "mealPlans": "🥗 Meal plans and healthy recipes",
+    "workoutRoutines": "💪 Personalized workout routines", 
+    "goalStrategies": "🎯 Strategies to reach your goals",
+    "progressAnalysis": "📊 Analysis of your progress and logs",
+    "placeholder": "Ask your AI Coach something...",
+    "placeholderNoSession": "Select or create a conversation",
+    "sending": "Sending...",
+    "errorSending": "Error sending message",
+    "errorLoading": "Could not load messages",
+    "errorLoadingSessions": "Could not load sessions",
+    "deleteConversation": "Delete conversation",
+    "disclaimer": "Coach AI may make mistakes. Verify important information.",
+    "timeGroups": {
+      "today": "Today",
+      "yesterday": "Yesterday", 
+      "last7days": "Last 7 days",
+      "last30days": "Last 30 days",
+      "older": "Older"
+    },
+    "errors": {
+      "generic": "Sorry, an error occurred while processing your message. Please try again.",
+      "network": "Connection error. Please check your internet connection.",
+      "sessionNotFound": "Session not found. Please start a new conversation."
+    }
+  },
+  "dashboard": {
+    "welcome": "Hello",
+    "statsTitle": "Statistics",
+    "quickActions": "Quick Actions",
+    "recentActivity": "Recent Activity",
+    "profileSetupText": "Complete your profile to get personalized recommendations",
+    "actions": {
+      "logFood": "Log Food",
+      "workout": "Workouts",
+      "aiCoach": "AI Coach",
+      "analytics": "Analytics"
+    },
+    "activity": {
+      "viewCompleteHistory": "View Complete History",
+      "noRecords": "No records yet",
+      "getStarted": "Start by logging your first meal or workout",
+      "logMeal": "Log Meal",
+      "logWorkout": "Log Workout",
+      "moreRecords": "... and {count} more records",
+      "viewAllHistory": "View all history"
+    },
+    "stats": {
+      "weight": "Weight (kg)",
+      "height": "Height (cm)",
+      "age": "Age (years)",
+      "records": "Records"
+    },
+    "profileSetup": {
+      "title": "Complete your profile",
+      "description": "Add your personal information to get more accurate recommendations",
+      "setupProfile": "Setup Profile"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "personalInfo": "Personal Information",
+    "physicalInfo": "Physical Information", 
+    "goals": "Goals",
+    "save": "Save Changes"
+  },
+  "auth": {
+    "login": "Log In",
+    "signup": "Sign Up", 
+    "logout": "Log Out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "user": "User"
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "spanish": "Español",
+    "description": "Select your preferred language. This setting will apply to the entire application."
+  }
+}
