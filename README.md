@@ -12,65 +12,6 @@ This is a full-stack AI-powered fitness and nutrition assistant built with Next.
 
 The application is built on a serverless architecture orchestrated by AWS Amplify. The frontend is a Next.js application that communicates with a GraphQL API (AWS AppSync). This API serves as a secure gateway to the backend logic, which is handled by AWS Lambda functions. Data is stored in DynamoDB (structured data and chat history) and Pinecone (vector embeddings for semantic search).
 
-```mermaid
-graph TD
-    subgraph "Frontend (Next.js App)"
-        A[Browser / Mobile App] --> B(UI - Chat Page)
-        B --> C(Server Actions)
-    end
-
-    subgraph "AWS Amplify Backend"
-        subgraph "AppSync (GraphQL API)"
-            C --> D(askCoach Mutation)
-            D -- Invokes --> E(askCoachLambdaDataSource)
-        end
-
-        subgraph "AWS Lambda"
-            E -- Calls --> F(askCoachHandler Lambda Function)
-            F -- Get Profile/History --> G[DynamoDB - User Profile & Chat History]
-            F -- Query Vectors --> H[Pinecone - Vector DB]
-            F -- Embeddings --> F1(OpenAI API - Embeddings)
-            F -- Chat Completions --> F2(OpenAI API - Chat Completions)
-        end
-
-        subgraph "DynamoDB Stream & createEmbedding Lambda"
-            G -- Triggers Stream --> I(createEmbedding Lambda Function)
-            I -- Embeddings --> J(OpenAI API - Embeddings)
-            J -- Store Vectors --> H
-        end
-        
-        subgraph "AWS Cognito (Authentication)"
-            A -- Authenticates --> K(User Pool)
-        end
-
-        K -- Auth Context --> C
-        K -- Auth Context --> D
-        K -- Auth Context --> F
-        K -- Auth Context --> G
-    end
-
-    subgraph "External APIs"
-        F1
-        F2
-        H
-        J
-    end
-
-    style A fill:#D1ECF1,stroke:#007bff,stroke-width:2px,color:#000
-    style B fill:#E2F0CB,stroke:#28a745,stroke-width:2px,color:#000
-    style C fill:#FFE0B2,stroke:#ff9800,stroke-width:2px,color:#000
-    style D fill:#BBDEFB,stroke:#2196f3,stroke-width:2px,color:#000
-    style E fill:#CFD8DC,stroke:#607d8b,stroke-width:2px,color:#000
-    style F fill:#FFF3E0,stroke:#ffc107,stroke-width:2px,color:#000
-    style F1 fill:#F0F4C3,stroke:#CDDC39,stroke-width:2px,color:#000
-    style F2 fill:#F0F4C3,stroke:#CDDC39,stroke-width:2px,color:#000
-    style G fill:#E1F5FE,stroke:#03a9f4,stroke-width:2px,color:#000
-    style H fill:#E3F2FD,stroke:#90CAF9,stroke-width:2px,color:#000
-    style I fill:#DCEDC8,stroke:#8BC34A,stroke-width:2px,color:#000
-    style J fill:#F0F4C3,stroke:#CDDC39,stroke-width:2px,color:#000
-    style K fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px,color:#000
-```
-
 [![](https://mermaid.ink/img/pako:eNqtVltv4jgY_StWRrPqStDJhUuItCslTkxpp7sdMbMrbeiDSRzINtjIcaYwpf997RBC2oU2D-MX7HznHH83f-JJi1hMNEdbcLxegq_-jAK5Pn4Ev6kFEGdUEBrvj3tjXsz36JlWmy_-IBtx-W8O3PX615m2B6rlhh5njznh4BO4ZfM0IwpyD7rd34EXfpuALoBLLMAdXpD7I80rATCcEv5dct1IpIzmFUBeOKOvHHX_ngJ3tc7SZAs8HD2c9_kEsumwVOx2u8rJ6ZZGan-0NVUq-8VYffjyGbh3kxeBqwXLKPwQ5w-Q4WgJbguBVST3L3G-wu0m9Dt7IPkOBEfCZ7yaxxj4WOApK3jUzFEjDU3HZXgV6xanFKCMPZ6Poga_dj0oXUe1J1eYxpmsRCWNChqdCASVgYyJrCdniSz2p6s0F4xvd2Ac-luKV8yXpQXfVENUEPDLvgMq5EnFLwXhW_AXiSRCJugqvEspiRglUmv_FfjeSWawmpM4TulC0pAR_rkm1J2oYknm0XaSWnoFmWwVUnafFDBfCrxGvFucOgVTwQle5TL2oxNnq_SKJUmR_BWkpp6p4bgMoyJ95eliQfgOTMLT7HM1nVQ1pYRLFmgm9LplPq8rRxgnjSK-lyzIFjQVDLiFWL7ZwQfghUISKtKofGT_e45u6UYDpB7bTbhvRsay99-W8gSqkbcRJx7WTa1_AO0AfNvsv21Gb5vH5-dhsBGEU5yp0uRnJuELTDNZyGjszeO-UbLr81dPxTZTbdW8VH6Sgx_I9545H3wjgMjo5ILLeed80PXhPEmqY_cxjcXSMdebTsQyxpVZb4p4lUhgIh16tYhp42Gv31YEViIIBbpn1iJJMrJ1va2IX4l4nh-ghifGaJBYbUWCSgQi3_ZhLTLQh7E9byuC6nCQFeiNcCJDH7YWMQ4qOupBq1aBvg-tUWsV82eojA9FNlAfBcdOsfAo6bUVuTqIWMhEfi0y0qGLWnsyOfQsDHxo1yK2B62e21bk-mfk5OYgYgV91D-GA82h907Pah35_y6NNUfwgnS0FeErrI7ak7pgpsmBuCIzzZHbGPMHNQqeJWeN6T-MrQ40zorFUnMSnOXyVKxjOUD9FMtpcoTIeUA4ZAUVmtMvFTTnSdtojj24HNiGYVmWaesje9DRthJhX5p9XTf7fWNg9QfDQe-5o_0or9Qv7WFv1FzP_wGo7iyJ?type=png)](https://mermaid.live/edit#pako:eNqtVltv4jgY_StWRrPqStDJhUuItCslTkxpp7sdMbMrbeiDSRzINtjIcaYwpf997RBC2oU2D-MX7HznHH83f-JJi1hMNEdbcLxegq_-jAK5Pn4Ev6kFEGdUEBrvj3tjXsz36JlWmy_-IBtx-W8O3PX615m2B6rlhh5njznh4BO4ZfM0IwpyD7rd34EXfpuALoBLLMAdXpD7I80rATCcEv5dct1IpIzmFUBeOKOvHHX_ngJ3tc7SZAs8HD2c9_kEsumwVOx2u8rJ6ZZGan-0NVUq-8VYffjyGbh3kxeBqwXLKPwQ5w-Q4WgJbguBVST3L3G-wu0m9Dt7IPkOBEfCZ7yaxxj4WOApK3jUzFEjDU3HZXgV6xanFKCMPZ6Poga_dj0oXUe1J1eYxpmsRCWNChqdCASVgYyJrCdniSz2p6s0F4xvd2Ac-luKV8yXpQXfVENUEPDLvgMq5EnFLwXhW_AXiSRCJugqvEspiRglUmv_FfjeSWawmpM4TulC0pAR_rkm1J2oYknm0XaSWnoFmWwVUnafFDBfCrxGvFucOgVTwQle5TL2oxNnq_SKJUmR_BWkpp6p4bgMoyJ95eliQfgOTMLT7HM1nVQ1pYRLFmgm9LplPq8rRxgnjSK-lyzIFjQVDLiFWL7ZwQfghUISKtKofGT_e45u6UYDpB7bTbhvRsay99-W8gSqkbcRJx7WTa1_AO0AfNvsv21Gb5vH5-dhsBGEU5yp0uRnJuELTDNZyGjszeO-UbLr81dPxTZTbdW8VH6Sgx_I9545H3wjgMjo5ILLeed80PXhPEmqY_cxjcXSMdebTsQyxpVZb4p4lUhgIh16tYhp42Gv31YEViIIBbpn1iJJMrJ1va2IX4l4nh-ghifGaJBYbUWCSgQi3_ZhLTLQh7E9byuC6nCQFeiNcCJDH7YWMQ4qOupBq1aBvg-tUWsV82eojA9FNlAfBcdOsfAo6bUVuTqIWMhEfi0y0qGLWnsyOfQsDHxo1yK2B62e21bk-mfk5OYgYgV91D-GA82h907Pah35_y6NNUfwgnS0FeErrI7ak7pgpsmBuCIzzZHbGPMHNQqeJWeN6T-MrQ40zorFUnMSnOXyVKxjOUD9FMtpcoTIeUA4ZAUVmtMvFTTnSdtojj24HNiGYVmWaesje9DRthJhX5p9XTf7fWNg9QfDQe-5o_0or9Qv7WFv1FzP_wGo7iyJ)
 
 ## Tech Stack
@@ -112,7 +53,7 @@ Follow these instructions to get the project running locally and to deploy it to
 
 This project uses **Amplify Secrets** to securely manage API keys and other sensitive information required by the backend Lambda functions.
 
-#### 1\. Local Environment File (`.env.local`)
+#### 1\. Local Environment File (`.env`)
 
 Create a file named `.env` in the root of your project. This file is primarily for non-sensitive, frontend-specific variables used during local development.
 
@@ -122,6 +63,12 @@ Create a file named `.env` in the root of your project. This file is primarily f
 # This URL is used by Cognito for redirects after authentication.
 # For local development, it's typically http://localhost:3000/
 AMPLIFY_APP_ORIGIN=http://localhost:3000
+PINECONE_API_KEY=<your-pinecone-api-key>
+PINECONE_INDEX_NAME=coach-nutrition-ai # Ensure this matches the index you created in Pinecone
+PINECONE_ENVIRONMENT=<your-pinecone-environment>
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AMPLIFY_APP_ORIGIN=http://localhost:3000
+
 ```
 
 #### 2\. Amplify Secrets Configuration
