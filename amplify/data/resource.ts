@@ -43,7 +43,9 @@ const schema = a.schema({
     .returns(a.string())
     .authorization(allow => [allow.authenticated()])
     .handler(a.handler.function(askCoachHandler))
-});
+}).authorization((allow) => [
+  allow.resource(askCoachHandler).to(['listen', 'mutate', 'query'])
+]);
 
 
 export type UserProfile = ClientSchema<typeof schema>['Item'] & {
