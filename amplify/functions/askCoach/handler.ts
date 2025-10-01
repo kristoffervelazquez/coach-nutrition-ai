@@ -2,9 +2,11 @@
 import type { AppSyncResolverEvent } from 'aws-lambda';
 import OpenAI from 'openai';
 import { Pinecone } from '@pinecone-database/pinecone';
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { QueryCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-
+import { Amplify } from 'aws-amplify';
+import { env } from '$amplify/env/askCoachHandler'; // replace with your function name
+import { getAmplifyDataClientConfig } from '@aws-amplify/backend/function/runtime';
+import { generateClient } from 'aws-amplify/data';
+import { Schema } from '../../data/resource';
 type Arguments = {
   prompt: string;
   sessionId?: string; // Ahora la Lambda recibe el sessionId
@@ -14,14 +16,15 @@ type Arguments = {
 const openai = new OpenAI();
 const pinecone = new Pinecone();
 const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX_NAME!);
-const ddbClient = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(ddbClient);
+
+
+const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(env);
+
+Amplify.configure(resourceConfig, libraryOptions);
+
+const client = generateClient<Schema>();
 
 export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<string> => {
-  console.log({ openai_key: process.env.OPENAI_API_KEY }) // Verifica que la clave API esté configurada correctamente
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('La clave API de OpenAI no está configurada.');
-  }
   const { prompt, sessionId } = event.arguments;
   // Extraer el userId según el tipo de identidad
   let userId: string | undefined;
@@ -61,46 +64,36 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
       .filter(Boolean)
       .join('\n- ');
 
-    // 3. Obtener el perfil del usuario de DynamoDB
-    
-    const profileCommand = new QueryCommand({
-      TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
-      KeyConditionExpression: "PK = :pk and SK = :sk",
-      ExpressionAttributeValues: {
-        ":pk": `USER#${userId}`,
-        ":sk": "PROFILE",
-      },
-      Limit: 1,
+    // 3. Obtener el perfil del usuario de DynamoDB usando cliente
+    const { data: profileData } = await client.models.Item.get({
+      PK: `USER#${userId}`,
+      SK: 'PROFILE'
     });
-    const { Items: profileItems } = await docClient.send(profileCommand);
-    const userProfile = profileItems?.[0];
+
+    const userProfile = profileData;
 
     const profileContext = userProfile
-      ? `Objetivos: ${userProfile.fitnessGoals}, Peso: ${userProfile.weight}kg, Edad: ${userProfile.age} años. Otros: ${userProfile.otherInfo || ''}`
+      ? `Objetivos: ${userProfile.fitnessGoals}, Peso: ${userProfile.weight}kg, Edad: ${userProfile.age} años.}`
       : "No se encontró el perfil del usuario.";
 
     // 4. Obtener el historial de la conversación actual (si sessionId existe)
     let chatHistoryContext = "";
     if (sessionId) {
-      const chatHistoryCommand = new QueryCommand({
-        TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
-        KeyConditionExpression: "PK = :pk AND begins_with(SK, :skPrefix)",
-        ExpressionAttributeValues: {
-          ":pk": `USER#${userId}`,
-          ":skPrefix": `CHAT_MESSAGE#${sessionId}`,
+      const { data: chatMessages } = await client.models.Item.list({
+        filter: {
+          PK: { eq: `USER#${userId}` },
+          SK: { beginsWith: `CHAT_MESSAGE#${sessionId}#` }
         },
-        ScanIndexForward: true, // true para ordenar por SK (timestamp) ascendente
-        Limit: 10, // Limitar al historial reciente para el contexto del LLM
+        sortDirection: 'ASC',
+        limit: 10,
       });
-      const { Items: chatMessages } = await docClient.send(chatHistoryCommand);
-
-      // Formatear el historial para el prompt del LLM
+      // // Formatear el historial para el prompt del LLM
       chatHistoryContext = chatMessages
         ?.map(msg => `${msg.messageRole}: ${msg.messageContent}`)
         .join('\n') || '';
     }
 
-    // 5. Construir el prompt aumentado para el modelo de chat
+    // Construir el prompt aumentado para el modelo de chat
     const augmentedPrompt = `
       Eres un coach de fitness y nutrición experto y amigable.
       Analiza la siguiente información sobre el usuario y responde a su pregunta de forma concisa y útil.
@@ -121,7 +114,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
       Respuesta:
     `;
 
-    // 6. Enviar a OpenAI para generar la respuesta final
+    // Enviar a OpenAI para generar la respuesta final
     const chatResponse = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: augmentedPrompt }],
