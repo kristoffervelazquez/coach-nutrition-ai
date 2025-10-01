@@ -1,3 +1,4 @@
+import { askCoachHandler } from './../functions/askCoach/resource';
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 
@@ -41,9 +42,7 @@ const schema = a.schema({
     })
     .returns(a.string())
     .authorization(allow => [allow.authenticated()])
-    .handler(
-      a.handler.function('askCoachHandler')
-    ),
+    .handler(a.handler.function(askCoachHandler))
 });
 
 

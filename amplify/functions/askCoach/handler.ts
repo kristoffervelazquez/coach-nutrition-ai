@@ -42,6 +42,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
     const embeddingResponse = await openai.embeddings.create({
       model: 'text-embedding-3-small',
       input: prompt,
+      dimensions: 512,
     });
     const promptEmbedding = embeddingResponse.data[0].embedding;
 
@@ -87,7 +88,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
         Limit: 10, // Limitar al historial reciente para el contexto del LLM
       });
       const { Items: chatMessages } = await docClient.send(chatHistoryCommand);
-      
+
       // Formatear el historial para el prompt del LLM
       chatHistoryContext = chatMessages
         ?.map(msg => `${msg.messageRole}: ${msg.messageContent}`)

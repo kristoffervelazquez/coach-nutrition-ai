@@ -56,7 +56,11 @@ const askCoachPolicy = new Policy(
     statements: [
       new PolicyStatement({
         effect: Effect.ALLOW,
-        actions: ["dynamodb:Query"], // Permisos de lectura
+        actions: [
+          "dynamodb:Query",
+          "dynamodb:GetItem",
+          "dynamodb:Scan"
+        ], // Permisos de lectura
         // Concede acceso a la tabla y a todos sus índices
         resources: [itemTable.tableArn, `${itemTable.tableArn}/index/*`],
       }),
