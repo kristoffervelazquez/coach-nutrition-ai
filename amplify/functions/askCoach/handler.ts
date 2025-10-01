@@ -18,6 +18,10 @@ const ddbClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(ddbClient);
 
 export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<string> => {
+  console.log(process.env.OPENAI_API_KEY) // Verifica que la clave API esté configurada correctamente
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('La clave API de OpenAI no está configurada.');
+  }
   const { prompt, sessionId } = event.arguments;
   // Extraer el userId según el tipo de identidad
   let userId: string | undefined;
