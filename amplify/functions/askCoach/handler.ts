@@ -11,7 +11,9 @@ type Arguments = {
 };
 
 // Inicialización de clientes
-const openai = new OpenAI();
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 const pinecone = new Pinecone();
 const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX_NAME!);
 const ddbClient = new DynamoDBClient({});
@@ -118,7 +120,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
 
     // 6. Enviar a OpenAI para generar la respuesta final
     const chatResponse = await openai.chat.completions.create({
-      model: 'gpt-4', // Considera usar gpt-4 para mejor calidad en este tipo de prompts complejos
+      model: 'gpt-5', 
       messages: [{ role: 'user', content: augmentedPrompt }],
       temperature: 0.7,
       max_tokens: 500, // Limitar la longitud de la respuesta
