@@ -70,15 +70,6 @@ export default function UserHeader({ user }: UserHeaderProps) {
         </Button>
         
         <Button
-          variant="outlined"
-          onClick={() => router.push('/settings')}
-          startIcon={<Settings />}
-          size="small"
-        >
-          {t('navigation.settings')}
-        </Button>
-        
-        <Button
           variant="contained"
           color="error"
           onClick={handleSignOut}
