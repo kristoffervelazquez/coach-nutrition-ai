@@ -11,6 +11,6 @@ export const askCoachHandler = defineFunction({
     PINECONE_API_KEY: secret('PINECONE_API_KEY'),
     PINECONE_ENVIRONMENT: secret('PINECONE_ENVIRONMENT'),
     PINECONE_INDEX_NAME: secret('PINECONE_INDEX_NAME'),
-    AWS_DYNAMODB_TABLE_NAME: process.env.AWS_DYNAMODB_TABLE_NAME || 'Item-zipd6t4kijh4ddpqqjsapqb2xu-NONE',
+    AWS_DYNAMODB_TABLE_NAME: process.env.AWS_DYNAMODB_TABLE_NAME!
   },
 });
