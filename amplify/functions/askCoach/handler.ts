@@ -18,7 +18,7 @@ const ddbClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(ddbClient);
 
 export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<string> => {
-  console.log(process.env.OPENAI_API_KEY) // Verifica que la clave API esté configurada correctamente
+  console.log({ openai_key: process.env.OPENAI_API_KEY }) // Verifica que la clave API esté configurada correctamente
   if (!process.env.OPENAI_API_KEY) {
     throw new Error('La clave API de OpenAI no está configurada.');
   }
@@ -121,7 +121,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
     `;
 
     // 6. Enviar a OpenAI para generar la respuesta final
-     const chatResponse = await openai.chat.completions.create({
+    const chatResponse = await openai.chat.completions.create({
       model: 'gpt-5',
       messages: [{ role: 'user', content: augmentedPrompt }],
       max_completion_tokens: 500, // Limitar la longitud de la respuesta
