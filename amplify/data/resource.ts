@@ -1,5 +1,5 @@
-import { askCoachHandler } from './../functions/askCoach/resource';
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { askCoachHandler } from './../functions/askCoach/resource';
 
 
 const schema = a.schema({

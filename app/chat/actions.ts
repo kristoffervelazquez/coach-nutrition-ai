@@ -8,9 +8,7 @@ import outputs from '@/amplify_outputs.json';
 
 // Definimos el tipo para la respuesta de la mutación
 type AskCoachMutationResult = {
-  data: {
-    askCoach: string;
-  } | null;
+  data: string | null;
   errors: any[];
 };
 
@@ -61,6 +59,8 @@ export async function askCoach(prompt: string, sessionId: string): Promise<{ res
       messageRole: 'user',
       messageContent: prompt,
     });
+    
+    console.log('Llamando a la mutación askCoach con prompt:', prompt, 'y sessionId:', currentSessionId);
 
     // 2. Llamar a la mutación GraphQL personalizada (que invoca la Lambda)
     const result = await cookieBasedClient.mutations.askCoach({
@@ -72,8 +72,8 @@ export async function askCoach(prompt: string, sessionId: string): Promise<{ res
       console.error('Errores en la mutación de GraphQL:', result.errors);
       throw new Error(result.errors.map(err => err.message).join('; '));
     }
-
-    const assistantResponse = result.data?.askCoach ?? 'No se recibió una respuesta del coach.';
+    console.log('Resultado de la mutación askCoach:', result);
+    const assistantResponse = result.data ?? 'No se recibió una respuesta del coach.';
 
     // 3. Guardar la respuesta del asistente
     await cookieBasedClient.models.Item.create({

@@ -62,6 +62,7 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
       .join('\n- ');
 
     // 3. Obtener el perfil del usuario de DynamoDB
+    
     const profileCommand = new QueryCommand({
       TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
       KeyConditionExpression: "PK = :pk and SK = :sk",
@@ -122,10 +123,12 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
 
     // 6. Enviar a OpenAI para generar la respuesta final
     const chatResponse = await openai.chat.completions.create({
-      model: 'gpt-5',
+      model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: augmentedPrompt }],
-      max_completion_tokens: 500, // Limitar la longitud de la respuesta
+      max_completion_tokens: 1000, // Limitar la longitud de la respuesta
     });
+
+    console.log('Chat Response:', chatResponse.choices[0].message.content);
 
     return chatResponse.choices[0].message.content ?? "No pude generar una respuesta.";
 
@@ -135,3 +138,4 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
     throw new Error(`Ocurrió un error al procesar tu pregunta: ${error instanceof Error ? error.message : String(error)}`);
   }
 };
+
