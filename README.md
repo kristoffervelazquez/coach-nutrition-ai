@@ -2,6 +2,12 @@
 
 This is a full-stack AI-powered fitness and nutrition assistant built with Next.js, AWS Amplify Gen 2, OpenAI, and Pinecone. It allows users to track their workouts and meals and receive personalized, data-informed recommendations from an AI coach.
 
+
+## Loom Demo
+
+[Link to the demo video](https://www.loom.com/share/0910468ae58b41baa45940b015a75a55)
+
+
 ## Architecture Diagram
 
 The application is built on a serverless architecture orchestrated by AWS Amplify. The frontend is a Next.js application that communicates with a GraphQL API (AWS AppSync). This API serves as a secure gateway to the backend logic, which is handled by AWS Lambda functions. Data is stored in DynamoDB (structured data and chat history) and Pinecone (vector embeddings for semantic search).
