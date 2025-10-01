@@ -1,0 +1,90 @@
+/* Estilos adicionales para mejorar la responsividad del chat */
+
+/* Asegurar que el chat use toda la altura disponible */
+.chat-container {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden;
+}
+
+
+.chat-messages-area {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+
+.chat-messages-area::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-messages-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.chat-messages-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
+.chat-input-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Evitar zoom en iOS al enfocar inputs */
+@supports (-webkit-touch-callout: none) {
+  .chat-input input,
+  .chat-input textarea {
+    font-size: 16px !important;
+  }
+}
+
+
+@media (max-width: 900px) {
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .chat-sidebar-overlay {
+    backdrop-filter: blur(4px);
+  }
+}
+
+
+.chat-main-container {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow-x: hidden;
+}
+
+
+body:has(.chat-container) {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html:has(.chat-container) {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+
+@media (max-width: 600px) {
+  .chat-message-content {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  .chat-message-time {
+    font-size: 0.65rem !important;
+  }
+}
