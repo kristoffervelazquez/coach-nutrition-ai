@@ -1,3 +1,4 @@
+import { askCoachHandler } from './functions/askCoach/resource';
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
 import { data } from './data/resource.js';
@@ -10,6 +11,7 @@ const backend = defineBackend({
   auth,
   data,
   createEmbedding,
+  askCoachHandler,
 });
 
 const itemTable = backend.data.resources.tables["Item"];
@@ -46,3 +48,21 @@ const mapping = new EventSourceMapping(
 );
 
 mapping.node.addDependency(policy);
+
+const askCoachPolicy = new Policy(
+  Stack.of(itemTable), // Asocia la política al mismo Stack que la tabla
+  "AskCoachDynamoDBReadPolicy",
+  {
+    statements: [
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ["dynamodb:Query"], // Permisos de lectura
+        // Concede acceso a la tabla y a todos sus índices
+        resources: [itemTable.tableArn, `${itemTable.tableArn}/index/*`],
+      }),
+    ],
+  }
+);
+
+// 2. Adjunta la política al rol de la función Lambda
+backend.askCoachHandler.resources.lambda.role?.attachInlinePolicy(askCoachPolicy);

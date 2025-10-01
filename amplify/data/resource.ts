@@ -19,6 +19,12 @@ const schema = a.schema({
     notes: a.string(),
     calories: a.integer(),
 
+    // --Chat related fields --
+    sessionId: a.string(),
+    messageRole: a.string(),
+    messageContent: a.string(),
+    title: a.string(),
+
     createdAt: a.datetime(),
     updatedAt: a.datetime(),
   })
@@ -27,6 +33,17 @@ const schema = a.schema({
     .authorization((allow) => [
       allow.owner().to(['read', 'create', 'update', 'delete']),
     ]),
+
+  askCoach: a.mutation()
+    .arguments({
+      prompt: a.string().required(),
+      sessionId: a.string(), // Ahora la mutación puede recibir el sessionId
+    })
+    .returns(a.string())
+    .authorization(allow => [allow.authenticated()])
+    .handler(
+      a.handler.function('askCoachHandler')
+    ),
 });
 
 
