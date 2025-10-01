@@ -134,7 +134,7 @@ When your application is ready for a permanent deployment, you'll provision your
     After deploying, set the secrets specifically for your new production environment. Replace `[your-env-name]` with the name of your deployed environment (e.g., `main`, `prod`).
 
     ```bash
-    npx amplify configure secret --environment [your-env-name]
+    npx amplify configure secret --env [your-env-name]
     # Follow the CLI prompts to set values for OPENAI_API_KEY, PINECONE_API_KEY, PINECONE_ENVIRONMENT.
     ```
 
