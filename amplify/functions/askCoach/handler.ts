@@ -11,9 +11,7 @@ type Arguments = {
 };
 
 // Inicialización de clientes
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = new OpenAI();
 const pinecone = new Pinecone();
 const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX_NAME!);
 const ddbClient = new DynamoDBClient({});
@@ -119,11 +117,10 @@ export const handler = async (event: AppSyncResolverEvent<Arguments>): Promise<s
     `;
 
     // 6. Enviar a OpenAI para generar la respuesta final
-    const chatResponse = await openai.chat.completions.create({
-      model: 'gpt-5', 
+     const chatResponse = await openai.chat.completions.create({
+      model: 'gpt-5',
       messages: [{ role: 'user', content: augmentedPrompt }],
-      temperature: 0.7,
-      max_tokens: 500, // Limitar la longitud de la respuesta
+      max_completion_tokens: 500, // Limitar la longitud de la respuesta
     });
 
     return chatResponse.choices[0].message.content ?? "No pude generar una respuesta.";
