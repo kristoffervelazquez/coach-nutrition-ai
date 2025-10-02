@@ -14,6 +14,8 @@ The application is built on a serverless architecture orchestrated by AWS Amplif
 
 [![](https://mermaid.ink/img/pako:eNqtVltv4jgY_StWRrPqStDJhUuItCslTkxpp7sdMbMrbeiDSRzINtjIcaYwpf997RBC2oU2D-MX7HznHH83f-JJi1hMNEdbcLxegq_-jAK5Pn4Ev6kFEGdUEBrvj3tjXsz36JlWmy_-IBtx-W8O3PX615m2B6rlhh5njznh4BO4ZfM0IwpyD7rd34EXfpuALoBLLMAdXpD7I80rATCcEv5dct1IpIzmFUBeOKOvHHX_ngJ3tc7SZAs8HD2c9_kEsumwVOx2u8rJ6ZZGan-0NVUq-8VYffjyGbh3kxeBqwXLKPwQ5w-Q4WgJbguBVST3L3G-wu0m9Dt7IPkOBEfCZ7yaxxj4WOApK3jUzFEjDU3HZXgV6xanFKCMPZ6Poga_dj0oXUe1J1eYxpmsRCWNChqdCASVgYyJrCdniSz2p6s0F4xvd2Ac-luKV8yXpQXfVENUEPDLvgMq5EnFLwXhW_AXiSRCJugqvEspiRglUmv_FfjeSWawmpM4TulC0pAR_rkm1J2oYknm0XaSWnoFmWwVUnafFDBfCrxGvFucOgVTwQle5TL2oxNnq_SKJUmR_BWkpp6p4bgMoyJ95eliQfgOTMLT7HM1nVQ1pYRLFmgm9LplPq8rRxgnjSK-lyzIFjQVDLiFWL7ZwQfghUISKtKofGT_e45u6UYDpB7bTbhvRsay99-W8gSqkbcRJx7WTa1_AO0AfNvsv21Gb5vH5-dhsBGEU5yp0uRnJuELTDNZyGjszeO-UbLr81dPxTZTbdW8VH6Sgx_I9545H3wjgMjo5ILLeed80PXhPEmqY_cxjcXSMdebTsQyxpVZb4p4lUhgIh16tYhp42Gv31YEViIIBbpn1iJJMrJ1va2IX4l4nh-ghifGaJBYbUWCSgQi3_ZhLTLQh7E9byuC6nCQFeiNcCJDH7YWMQ4qOupBq1aBvg-tUWsV82eojA9FNlAfBcdOsfAo6bUVuTqIWMhEfi0y0qGLWnsyOfQsDHxo1yK2B62e21bk-mfk5OYgYgV91D-GA82h907Pah35_y6NNUfwgnS0FeErrI7ak7pgpsmBuCIzzZHbGPMHNQqeJWeN6T-MrQ40zorFUnMSnOXyVKxjOUD9FMtpcoTIeUA4ZAUVmtMvFTTnSdtojj24HNiGYVmWaesje9DRthJhX5p9XTf7fWNg9QfDQe-5o_0or9Qv7WFv1FzP_wGo7iyJ?type=png)](https://mermaid.live/edit#pako:eNqtVltv4jgY_StWRrPqStDJhUuItCslTkxpp7sdMbMrbeiDSRzINtjIcaYwpf997RBC2oU2D-MX7HznHH83f-JJi1hMNEdbcLxegq_-jAK5Pn4Ev6kFEGdUEBrvj3tjXsz36JlWmy_-IBtx-W8O3PX615m2B6rlhh5njznh4BO4ZfM0IwpyD7rd34EXfpuALoBLLMAdXpD7I80rATCcEv5dct1IpIzmFUBeOKOvHHX_ngJ3tc7SZAs8HD2c9_kEsumwVOx2u8rJ6ZZGan-0NVUq-8VYffjyGbh3kxeBqwXLKPwQ5w-Q4WgJbguBVST3L3G-wu0m9Dt7IPkOBEfCZ7yaxxj4WOApK3jUzFEjDU3HZXgV6xanFKCMPZ6Poga_dj0oXUe1J1eYxpmsRCWNChqdCASVgYyJrCdniSz2p6s0F4xvd2Ac-luKV8yXpQXfVENUEPDLvgMq5EnFLwXhW_AXiSRCJugqvEspiRglUmv_FfjeSWawmpM4TulC0pAR_rkm1J2oYknm0XaSWnoFmWwVUnafFDBfCrxGvFucOgVTwQle5TL2oxNnq_SKJUmR_BWkpp6p4bgMoyJ95eliQfgOTMLT7HM1nVQ1pYRLFmgm9LplPq8rRxgnjSK-lyzIFjQVDLiFWL7ZwQfghUISKtKofGT_e45u6UYDpB7bTbhvRsay99-W8gSqkbcRJx7WTa1_AO0AfNvsv21Gb5vH5-dhsBGEU5yp0uRnJuELTDNZyGjszeO-UbLr81dPxTZTbdW8VH6Sgx_I9545H3wjgMjo5ILLeed80PXhPEmqY_cxjcXSMdebTsQyxpVZb4p4lUhgIh16tYhp42Gv31YEViIIBbpn1iJJMrJ1va2IX4l4nh-ghifGaJBYbUWCSgQi3_ZhLTLQh7E9byuC6nCQFeiNcCJDH7YWMQ4qOupBq1aBvg-tUWsV82eojA9FNlAfBcdOsfAo6bUVuTqIWMhEfi0y0qGLWnsyOfQsDHxo1yK2B62e21bk-mfk5OYgYgV91D-GA82h907Pah35_y6NNUfwgnS0FeErrI7ak7pgpsmBuCIzzZHbGPMHNQqeJWeN6T-MrQ40zorFUnMSnOXyVKxjOUD9FMtpcoTIeUA4ZAUVmtMvFTTnSdtojj24HNiGYVmWaesje9DRthJhX5p9XTf7fWNg9QfDQe-5o_0or9Qv7WFv1FzP_wGo7iyJ)
 
+
+
 ## Tech Stack
 
   * **Frontend:** Next.js (App Router), React, Material-UI (MUI)
@@ -24,6 +26,46 @@ The application is built on a serverless architecture orchestrated by AWS Amplif
   * **Database (Vector):** Pinecone
   * **AI / Embeddings:** OpenAI (`gpt-4`, `text-embedding-ada-002`)
   * **Compute:** AWS Lambda
+
+## Pinecone Index Design
+
+The application uses a Pinecone vector index to store embeddings of user logs (meals and workouts) for fast and efficient semantic search. This is the core component of the Retrieval-Augmented Generation (RAG) pipeline.
+
+**Index Name:** `fitness-coach-embeddings`
+
+**Vector Dimensions:** `1536` (to match OpenAI's text-embedding-ada-002 model)
+
+**Similarity Metric:** `cosine` (recommended for OpenAI embeddings)
+
+### Namespace Strategy
+
+To ensure strict data isolation and privacy between users, the index utilizes namespaces. Each user's vectors are stored in a unique namespace corresponding to their Cognito User ID (sub).
+
+**When Indexing:** `pineconeIndex.namespace(userId).upsert(...)`
+
+**When Querying:** `pineconeIndex.namespace(userId).query(...)`
+
+This guarantees that when the AI Coach searches for relevant context, it only ever retrieves data belonging to the currently authenticated user.
+
+### Vector Metadata Structure
+
+Each vector is stored with a rich metadata object. This metadata is not used for the vector search itself but is returned with the search results. It provides the necessary structured context for the language model to formulate a relevant and accurate response.
+
+A typical metadata object for a vector has the following structure:
+
+```json
+{
+  "dataType": "workout", // or "meal"
+  "timestamp": "2025-10-01T18:00:00Z",
+  "calories": 350,
+  "originalNotes": "{\"userNotes\":\"Heavy leg day, focused on squats and deadlifts.\",\"workoutType\":\"Strength Training\",\"duration\":60,\"intensity\":\"High\"}"
+}
+```
+
+- **dataType** (string): Identifies the type of log (meal or workout).
+- **timestamp** (string): The ISO 8601 timestamp of when the activity occurred.
+- **calories** (number): The number of calories consumed or burned.
+- **originalNotes** (string): The full, original notes field from DynamoDB. This is often a JSON string containing a detailed breakdown of the log, which the AI model can parse for deeper context.
 
 ## Features
 
